@@ -1,0 +1,11 @@
+{
+  "name": "my_repo",
+  "description": "This is a sample repository",
+  "private": true,
+  "users": {
+    "gabs_git": "OWNER",
+    "betyUser": "COLLABORATOR",
+    "bob_smith": "MAINTAINER",
+    "alice_wonder": "READER"
+  }
+}

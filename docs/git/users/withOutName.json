@@ -1,0 +1,14 @@
+{
+  "username": "gabGit",
+  "email": "gabriel@belobetty.com",
+  "permissions": [
+    {
+      "repository": "repo1",
+      "permission": "Owner"
+    },
+    {
+      "repository": "repo2",
+      "permission": "Collaborator"
+    }
+  ]
+}
