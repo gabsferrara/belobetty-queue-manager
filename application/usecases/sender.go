@@ -10,6 +10,10 @@ type SenderUseCase struct {
 	queue.Producer
 }
 
+type SenderUseCaseInterface interface {
+	Exec(entity domain.Entity, action, functionality, user string) error
+}
+
 func NewSenderUseCase(sender queue.Producer) *SenderUseCase {
 	return &SenderUseCase{sender}
 }
