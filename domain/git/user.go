@@ -10,9 +10,9 @@ import (
 
 type UserGit struct {
 	UserName    string                    `json:"username"`
-	Email       string                    `json:"email"`
-	Name        string                    `json:"name"`
-	Permissions []AccessRepositoryUserGit `json:"permissions"`
+	Email       string                    `json:"email,omitempty"`
+	Name        string                    `json:"name,omitempty"`
+	Permissions []AccessRepositoryUserGit `json:"permissions,omitempty"`
 }
 
 type AccessRepositoryUserGit struct {

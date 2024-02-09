@@ -8,6 +8,7 @@ import (
 )
 
 type RabbitMQProducer struct {
+	con     *amqp.Connection
 	channel *amqp.Channel
 	queue   amqp.Queue
 }
@@ -36,6 +37,7 @@ func NewRabbitMQ(routingKey string) (*RabbitMQProducer, error) {
 		return nil, fmt.Errorf("failed to declare a queue: %s", err.Error())
 	}
 	return &RabbitMQProducer{
+		con:     conn,
 		channel: ch,
 		queue:   q,
 	}, nil
@@ -43,6 +45,8 @@ func NewRabbitMQ(routingKey string) (*RabbitMQProducer, error) {
 
 func (r *RabbitMQProducer) SendMessage(msg []byte) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	r.con.Close()
+	r.channel.Close()
 	defer cancel()
 
 	err := r.channel.PublishWithContext(ctx, "", r.queue.Name, false, false, amqp.Publishing{

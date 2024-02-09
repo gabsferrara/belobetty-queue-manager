@@ -1,4 +1,4 @@
-package server
+package main
 
 import (
 	"belobetty-queue-manager/infra/http/fiber/git"

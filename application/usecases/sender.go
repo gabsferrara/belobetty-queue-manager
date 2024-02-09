@@ -18,9 +18,9 @@ func NewSenderUseCase(sender queue.Producer) *SenderUseCase {
 	return &SenderUseCase{sender}
 }
 
-func (s *SenderUseCase) Exec(entity domain.Entity, action, functionality, user string) error {
+func (s *SenderUseCase) Exec(entity domain.Entity, action, functionality, company string) error {
 	message := &domain.MessageDTO{
-		User:          user,
+		Company:       company,
 		Action:        action,
 		Functionality: functionality,
 		Entity:        entity,

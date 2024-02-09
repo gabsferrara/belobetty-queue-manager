@@ -2,7 +2,7 @@ package users
 
 import (
 	entity "belobetty-queue-manager/domain/git"
-	"belobetty-queue-manager/infra/http/fiber/git"
+	fiber2 "belobetty-queue-manager/infra/http/fiber"
 	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"net/http"
@@ -15,12 +15,12 @@ func createUser(c *fiber.Ctx) error {
 		return c.Status(http.StatusBadRequest).JSON("invalid json")
 	}
 
-	ct, err := git.NewGitController()
+	ct, err := fiber2.NewGitController()
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(err.Error())
 	}
 
-	err = ct.Exec(user, "create", "users", c.Get("user"))
+	err = ct.Exec(user, "create", "users", c.Get("company"))
 
 	return c.Status(http.StatusCreated).JSON(fmt.Sprintf("Solicitado criação do usuario %s.", user.UserName))
 }

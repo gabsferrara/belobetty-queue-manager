@@ -16,10 +16,10 @@ const (
 
 type RepositoryGit struct {
 	ID          int64             `json:"ID"`
-	Name        string            `json:"name"`
+	Name        string            `json:"name,omitempty"`
 	Description string            `json:"description,omitempty"`
-	Private     bool              `json:"private"`
-	Users       UserRepositoryGit `json:"users"`
+	Private     bool              `json:"private,omitempty"`
+	Users       UserRepositoryGit `json:"users,omitempty"`
 }
 
 type UserRepositoryGit map[string]string

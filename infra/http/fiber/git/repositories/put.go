@@ -1,11 +1,26 @@
 package repositories
 
 import (
+	entity "belobetty-queue-manager/domain/git"
+	fiber2 "belobetty-queue-manager/infra/http/fiber"
+	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"net/http"
 )
 
 func updateRepository(c *fiber.Ctx) error {
+	var repo = new(entity.RepositoryGit)
+	err := c.BodyParser(repo)
+	if err != nil {
+		return c.Status(http.StatusBadRequest).JSON("invalid json")
+	}
 
-	return c.Status(http.StatusOK).JSON("updateUser")
+	ct, err := fiber2.NewGitController()
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(err.Error())
+	}
+
+	err = ct.Exec(repo, "update", "repository", c.Get("company"))
+
+	return c.Status(http.StatusCreated).JSON(fmt.Sprintf("Solicitado atualização do usuario %s.", repo.Name))
 }
