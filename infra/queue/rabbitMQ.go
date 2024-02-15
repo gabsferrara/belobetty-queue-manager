@@ -3,7 +3,9 @@ package queue
 import (
 	"context"
 	"fmt"
+	"github.com/joho/godotenv"
 	amqp "github.com/rabbitmq/amqp091-go"
+	"os"
 	"time"
 )
 
@@ -13,7 +15,14 @@ type RabbitMQProducer struct {
 	queue   amqp.Queue
 }
 
-const url = "guest@localhost:5672"
+func init() {
+	_ = godotenv.Load()
+	if envURL, ok := os.LookupEnv("RABBITMQ_URL"); ok {
+		url = envURL
+	}
+}
+
+var url = "guest@localhost:5672"
 
 func NewRabbitMQ(routingKey string) (*RabbitMQProducer, error) {
 	conn, err := amqp.Dial("amqp://guest:" + url)
@@ -45,8 +54,8 @@ func NewRabbitMQ(routingKey string) (*RabbitMQProducer, error) {
 
 func (r *RabbitMQProducer) SendMessage(msg []byte) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	r.con.Close()
-	r.channel.Close()
+	defer r.con.Close()
+	defer r.channel.Close()
 	defer cancel()
 
 	err := r.channel.PublishWithContext(ctx, "", r.queue.Name, false, false, amqp.Publishing{
