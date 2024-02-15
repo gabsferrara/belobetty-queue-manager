@@ -21,6 +21,9 @@ func createUser(c *fiber.Ctx) error {
 	}
 
 	err = ct.Exec(user, "create", "users", c.Get("company"))
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(err.Error())
+	}
 
 	return c.Status(http.StatusCreated).JSON(fmt.Sprintf("Solicitado criação do usuario %s.", user.UserName))
 }

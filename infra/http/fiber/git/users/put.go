@@ -22,6 +22,9 @@ func updateUser(c *fiber.Ctx) error {
 	}
 
 	err = ct.Exec(user, "update", "users", c.Get("company"))
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(err.Error())
+	}
 
 	return c.Status(http.StatusCreated).JSON(fmt.Sprintf("Solicitado atualização do usuario %s.", user.UserName))
 }

@@ -18,6 +18,9 @@ func deleteUser(c *fiber.Ctx) error {
 	}
 
 	err = ct.Exec(user, "delete", "users", c.Get("company"))
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(err.Error())
+	}
 
 	return c.Status(http.StatusCreated).JSON(fmt.Sprintf("Solicitado deleção do usuario %s.", user.UserName))
 }

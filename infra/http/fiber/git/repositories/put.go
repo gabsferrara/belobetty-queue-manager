@@ -21,6 +21,9 @@ func updateRepository(c *fiber.Ctx) error {
 	}
 
 	err = ct.Exec(repo, "update", "repository", c.Get("company"))
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(err.Error())
+	}
 
 	return c.Status(http.StatusCreated).JSON(fmt.Sprintf("Solicitado atualização do usuario %s.", repo.Name))
 }
